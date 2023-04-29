@@ -6,6 +6,7 @@ usb_port_list = serial.tools.list_ports.grep("usb")
 usbports = sum(1 for i in usb_port_list)
 
 def usbconn(portname):
+    global ser
     ser = serial.Serial(portname)
 
 def listconn():
@@ -39,6 +40,7 @@ else:
 # use exeption handlers
 
 # once connection has been established
+# use serial comm to send a start command to arduino
 
 def reader():
     samples = 100
