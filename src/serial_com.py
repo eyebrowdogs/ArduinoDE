@@ -1,62 +1,48 @@
 import serial,csv, serial.tools.list_ports
 from datetime import datetime
-
-usb_port_list = serial.tools.list_ports.grep("usb")
-
-usbports = sum(1 for i in usb_port_list)
+import pandas
+import matplotlib.animation as animation
+import time
 
 def usbconn(portname):
     global ser
-    ser = serial.Serial(portname)
+    try:
+        ser = serial.Serial(portname,9600,parity="N")
+        print("succesful connection at port " + portname)
+        return True
+    except:
+        ("Failed connection at at port " + portname)
 
-def listconn():
-
-    port_list = serial.tools.list_ports.comports()
-
-    for info in port_list:
-        print(info)
-
-    num = 1
-    ports = sum(1 for i in port_list)
-
-    if ports > 1:
-        print("Choose device to connect to:")
-        for info in port_list:
-            print(num, end = '')
-            print(info)
-            num = num + 1
-            print("")
-        pnum = input("")
-        #number inputer
-    
+port_list = serial.tools.list_ports.comports()
 
 
-
-if usbports ==0:
-    usbconn(usb_port_list[0])
-else:
-    listconn()
-
-# use exeption handlers
-
-# once connection has been established
-# use serial comm to send a start command to arduino
+def waiter():
+    robert = True
+    while robert == True:
+        print("Waiting for cue...")
+        cue = ser.readline
+        if cue == "begin":
+            robert = False
+        reader()
+        time.sleep(3)
+    waiter()
 
 def reader():
-    samples = 100
-    line = 0
-    while line <= samples:
-        global datalist
-        datalist = []
-        dataline = ser.readline()
-        print(dataline)
-        datalist.append(dataline)
-        line = line +1
-
-now = datetime.now()
-
-with open(now.strftime("%d/%m/%Y %H:%M:%S"), 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerows(datalist)
-
-print("Data collection complete!")
+    data = []
+    line = ser.readline
+    if line == "end":
+        now = datetime.now()
+        with open(now.strftime("%d/%m/%Y %H:%M:%S"), 'w', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(data)
+        return 
+    else:
+        data.append(line)
+        
+# use exeption handlers
+for i in port_list:
+    if usbconn(i.device) == True:
+        waiter()
+    
+# once connection has been established
+# use serial comm to send a start command to arduino
