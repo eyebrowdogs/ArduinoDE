@@ -4,6 +4,7 @@ int echoPin = 6;    // Echo
 int buttonPin = 5; // Button
 long duration, cm, inches;
 int loopc = 0;
+
  
 void setup() {
   //Serial Port begin
@@ -12,6 +13,7 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   pinMode(buttonPin, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
   
 }
  
@@ -53,16 +55,18 @@ void sender() {
 
 
 void loop(){
-  while (digitalRead(buttonPin)==0)
+  while (digitalRead(buttonPin)== false)
   {
-    
+    delay(10);
   }
   Serial.print("begin");
+  digitalWrite(LED_BUILTIN, HIGH);
   while (digitalRead(buttonPin)==0)
   {
     sender();
   }
   Serial.print("end");
+  digitalWrite(LED_BUILTIN, LOW);
 
 
 
