@@ -4,6 +4,7 @@ int echoPin = 6;    // Echo
 int buttonPin = 5; // Button
 long duration, cm, inches;
 int loopc = 0;
+int bt;
 
  
 void setup() {
@@ -17,7 +18,7 @@ void setup() {
   
 }
  
-void sender() {
+bool sender() {
  
   
   digitalWrite(trigPin, LOW);
@@ -49,12 +50,12 @@ void sender() {
   }
   
   loopc = loopc + 1;
-
-  delay(0);
+  delay(10);
+  
 }
 
 
-void loop(){
+/* void loop(){
   while (digitalRead(buttonPin)== false)
   {
     delay(10);
@@ -70,4 +71,51 @@ void loop(){
 
 
 
+} */
+
+bool debouncer(bool state){
+
+  boolean stateNow = digitalRead(buttonPin);
+  if (stateNow!=state)
+  {
+    delay(10);
+    stateNow = digitalRead(buttonPin);
+  }
+  return stateNow;
+
+}
+
+
+
+void loop(){
+      bool state = digitalRead(buttonPin);
+      bool debounced = debouncer(state);
+      if (debounced==1)
+      {
+        Serial.print("begin");
+        delay(250);
+        bt = true;
+      }
+      
+      while ( bt == true)
+      {
+          sender();
+          bool state = digitalRead(buttonPin);
+          if (state == true)
+          {
+            bool debounced = debouncer(state);
+          if (debounced==true)
+          {
+            Serial.print("end");
+            bt = false;
+          }
+          else{
+            bt = true;
+          }
+          }
+          
+          
+      }
+      delay(250);
+      
 }
