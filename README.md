@@ -8,6 +8,7 @@
 PASCO capstone-like DIY spring plotter made for **PhD. Pablo Enrique Moreira** 
 by **Paul Navarro Amezcua**
 at *Universidad Ánahuac Querétaro.* 
+    Métodos Cuantitativos Dept.
 
 
 ![](https://raw.githubusercontent.com/eyebrowdogs/ArduinoDE/main/docs/ensamble%203.PNG)
