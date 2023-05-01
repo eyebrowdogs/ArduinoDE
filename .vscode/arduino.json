@@ -3,5 +3,5 @@
     "programmer": "avrisp",
     "sketch": "src/ArduinoDE/ArduinoDE.ino",
     "output": "../build",
-    "port": "/dev/tty.usbmodem1101"
+    "port": "/dev/tty.usbmodem101"
 }

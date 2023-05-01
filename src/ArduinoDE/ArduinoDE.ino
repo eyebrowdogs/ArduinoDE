@@ -99,7 +99,7 @@ void loop(){
       bool debounced = debouncer(state);
       if (debounced==1)
       { digitalWrite(redLed, LOW);
-        Serial.print("begin");
+        Serial.println("begin");
         delay(250);
         bt = true;
       }
@@ -113,7 +113,8 @@ void loop(){
             bool debounced = debouncer(state);
           if (debounced==true)
           {
-            Serial.print("end");
+            Serial.println("end");
+            loopc = 0;
             bt = false;
           }
           else{
