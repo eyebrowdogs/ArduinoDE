@@ -2,6 +2,8 @@
 int trigPin = 7;    // Trigger
 int echoPin = 6;    // Echo
 int buttonPin = 5; // Button
+int redLed = 9;
+int greenLed = 8;
 long duration, cm, inches;
 int loopc = 0;
 int bt;
@@ -15,12 +17,15 @@ void setup() {
   pinMode(echoPin, INPUT);
   pinMode(buttonPin, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(redLed,OUTPUT);
+  pinMode(greenLed,OUTPUT);
   
 }
  
 bool sender() {
  
-  
+  digitalWrite(greenLed, HIGH);
+
   digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin, HIGH);
@@ -51,6 +56,7 @@ bool sender() {
   
   loopc = loopc + 1;
   delay(10);
+  digitalWrite(greenLed, LOW);
   
 }
 
@@ -88,10 +94,11 @@ bool debouncer(bool state){
 
 
 void loop(){
+      digitalWrite(redLed, HIGH);
       bool state = digitalRead(buttonPin);
       bool debounced = debouncer(state);
       if (debounced==1)
-      {
+      { digitalWrite(redLed, LOW);
         Serial.print("begin");
         delay(250);
         bt = true;
