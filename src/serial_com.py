@@ -4,7 +4,7 @@ import pandas
 import matplotlib.animation as animation
 import time
 import os
-
+import re
 
 
 def usbconn(portname):
@@ -19,8 +19,7 @@ def usbconn(portname):
         print("Failed connection at at port " + portname)
         return False
 
-port_list = serial.tools.list_ports.comports()
-data = []
+
 
 #fix waiter
 
@@ -40,7 +39,7 @@ data = []
 def waiter2():
     print("Waiting...")
     buff = ser.read_until()
-    print(buff)
+    #print(buff)
     dbuff = buff.decode('utf-8')
 
     if dbuff == "begin\r\n":
@@ -55,7 +54,7 @@ def waiter2():
 
 
 def reader():
-    print("begin reader") 
+    print("begining reader") 
     reading = True
     while reading == True:  
         line = ser.read_until()
@@ -70,7 +69,7 @@ def reader():
             #name = os.path.join(path,str(now.strftime("%d/%m/%Y %H:%M:%S")))+".csv"
             #name.replace(" ","")
             name = "csv.csv"
-            with open(name, "w",newline="") as f:
+            with open(name, "w",newline=" ") as f:
                 print("writing csv..")
                 writer = csv.writer(f)
                 writer.writerows(data)
@@ -79,7 +78,9 @@ def reader():
                 data = []
             return 
         else:
-            data.append(dline)
+            noends = dline[0:][:-2]
+            dupes = noends.split(",")
+            data.append(dupes)
             reading = True
         
 """ # use exeption handlers
@@ -95,3 +96,24 @@ if obj is True:
         waiter2()
 else:
     print("Failed to wait")
+
+#write a end-begin checker in single func
+#make waiter conditional on connection and run until termination
+#only connect to arduinos
+#ignore bluetooth and wlan debug
+
+port_list = serial.tools.list_ports.comports()
+data = []
+
+for name in port_list:
+    try:
+        usb = re.search("usb", name)
+    except Exception:
+        print("No USB device found at " + name)
+    if usb:
+        print("USB device found at " + name + "attempting connection")
+        stateConn = usbconn(name)
+        if stateConn:
+            waiter2()
+
+
