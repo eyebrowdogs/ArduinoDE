@@ -1,0 +1,2 @@
+open spurce physics data software
+PASCO Capstone like software and modules meant for highs schools and the like

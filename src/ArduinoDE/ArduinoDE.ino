@@ -40,15 +40,15 @@ bool sender() {
 
   if (cm>= 50.0){
     Serial.print(loopc);
-    Serial.print("  ");
-    Serial.println("NA");
+    Serial.print(",  ");
+    Serial.println("NA,");
 
   }
   else{
       Serial.print(loopc);
-      Serial.print(",");
+      Serial.print(", ");
       Serial.print(cm);
-      Serial.print("cm");
+      Serial.print("cm,");
       Serial.println();
   }
   

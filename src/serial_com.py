@@ -58,7 +58,7 @@ def reader():
     reading = True
     while reading == True:  
         line = ser.read_until()
-        print(line)
+        #print(line)
         dline = line.decode('utf-8')
         print(dline)
         if dline == "end\r\n":
@@ -69,7 +69,7 @@ def reader():
             #name = os.path.join(path,str(now.strftime("%d/%m/%Y %H:%M:%S")))+".csv"
             #name.replace(" ","")
             name = "csv.csv"
-            with open(name, "w",newline=" ") as f:
+            with open(name, "w",newline="\n",) as f:
                 print("writing csv..")
                 writer = csv.writer(f)
                 writer.writerows(data)
@@ -101,6 +101,7 @@ else:
 #make waiter conditional on connection and run until termination
 #only connect to arduinos
 #ignore bluetooth and wlan debug
+#make arduino code display time not 1 increments
 
 port_list = serial.tools.list_ports.comports()
 data = []
@@ -115,5 +116,7 @@ for name in port_list:
         stateConn = usbconn(name)
         if stateConn:
             waiter2()
+
+
 
 
