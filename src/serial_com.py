@@ -13,56 +13,43 @@ def usbconn(portname):
         ser = serial.Serial(portname,9600,parity="N",stopbits=1)
         ser.reset_input_buffer()
         print("succesful connection at port " + portname)
-        print(ser.is_open)
+        print("is port " + portname + " open? " + str(ser.is_open))
         return True
     except Exception:
         print("Failed connection at at port " + portname)
         return False
 
-
-
-#fix waiter
-
-
-""" def waiter():
-    robert = True
-    while robert == True:
-        print("Waiting for cue...")
-        cue = ser.readline()
-        if cue == "begin":
-            robert = False
-            reader()
-        ser.reset_input_buffer()
-        time.sleep(3) """
     
 
 def waiter2():
     print("Waiting...")
-    buff = ser.read_until()
+    buff = ser.readline()
     #print(buff)
     dbuff = buff.decode('utf-8')
 
     if dbuff == "begin\r\n":
-        print("calling reader from begin...")
+        print("calling reader from waiter...")
         reader()
 
     ser.reset_input_buffer()
-    ser.flush()
-    time.sleep(3)        
+    #ser.flush()
+
     
 
 
 
 def reader():
+    data = []
     print("begining reader") 
     reading = True
     while reading == True:  
-        line = ser.read_until()
+        line = ser.readline()
         #print(line)
         dline = line.decode('utf-8')
         print(dline)
         if dline == "end\r\n":
             print("ended reader")
+            print(data)
             #path = os.path.abspath(os.curdir)
             #now = datetime.now()
 
@@ -89,7 +76,7 @@ for i in port_list:
         waiter() """
 
 
-obj = usbconn("/dev/tty.usbmodem1101")
+obj = usbconn("/dev/tty.usbmodem101")
 
 if obj is True:
     while True:
@@ -97,25 +84,20 @@ if obj is True:
 else:
     print("Failed to wait")
 
-#write a end-begin checker in single func
-#make waiter conditional on connection and run until termination
-#only connect to arduinos
-#ignore bluetooth and wlan debug
-#make arduino code display time not 1 increments
 
-port_list = serial.tools.list_ports.comports()
-data = []
+# port_list = serial.tools.list_ports.comports()
+# data = []
 
-for name in port_list:
-    try:
-        usb = re.search("usb", name)
-    except Exception:
-        print("No USB device found at " + name)
-    if usb:
-        print("USB device found at " + name + "attempting connection")
-        stateConn = usbconn(name)
-        if stateConn:
-            waiter2()
+# for name in port_list:
+#     try:
+#         usb = re.search("usb", name)
+#     except Exception:
+#         print("No USB device found at " + name)
+#     if usb:
+#         print("USB device found at " + name + "attempting connection")
+#         stateConn = usbconn(name)
+#         if stateConn:
+#             waiter2()
 
 
 
