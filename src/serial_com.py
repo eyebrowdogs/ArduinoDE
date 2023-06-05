@@ -32,11 +32,7 @@ def waiter2():
         reader()
 
     ser.reset_input_buffer()
-    #ser.flush()
-
-    
-
-
+ 
 
 def reader():
     data = []
@@ -50,12 +46,12 @@ def reader():
         if dline == "end\r\n":
             print("ended reader")
             print(data)
-            #path = os.path.abspath(os.curdir)
-            #now = datetime.now()
+            path = os.path.abspath(os.curdir)
+            now = datetime.now()
 
-            #name = os.path.join(path,str(now.strftime("%d/%m/%Y %H:%M:%S")))+".csv"
+            name = os.path.join(path,str(now.strftime("%d-%m-%Y-%H:%M:%S")))+".csv"
             #name.replace(" ","")
-            name = "csv.csv"
+            #name = "csv.csv"
             with open(name, "w",newline="\n",) as f:
                 print("writing csv..")
                 writer = csv.writer(f)
