@@ -9,3 +9,7 @@ CSVs/*
 /src/__pycache__/*
 
 /ideas.txt
+
+src/__pycache__
+
+src/__pycache__/*

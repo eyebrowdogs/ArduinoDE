@@ -1,7 +1,0 @@
-open spurce physics data software
-PASCO Capstone like software and modules meant for highs schools and the like
-use a toggle button instead of momentary button 
-
-#check tim eleapsed accuracy
-# authenticate connection with call response arduino code
-# write data on each loop for long term data acquisition
