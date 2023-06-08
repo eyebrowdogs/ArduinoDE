@@ -48,7 +48,7 @@ bool sender() {
       Serial.print(loopc);
       Serial.print(", ");
       Serial.print(cm);
-      Serial.print("cm,");
+      Serial.print(" cm,");
       Serial.println();
   }
   
@@ -92,6 +92,13 @@ bool debouncer(bool state){
 
 
 void loop(){
+      if (Serial.available() > 0) {
+        char HHS = Serial.read();
+        //Serial.println(HHS);
+        if (HHS == 'a'){
+          Serial.println('a');
+      }
+       }
       digitalWrite(redLed, HIGH);
       bool state = digitalRead(buttonPin);
       bool debounced = debouncer(state);
@@ -99,6 +106,9 @@ void loop(){
       { digitalWrite(redLed, LOW);
         Serial.println("begin");
         delay(250);
+      Serial.print("No, ");
+      Serial.print("cm,");
+      Serial.println();
         bt = true;
       }
       
