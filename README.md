@@ -14,7 +14,7 @@ at *Universidad Ánahuac Querétaro.*
 
 ![](https://raw.githubusercontent.com/eyebrowdogs/ArduinoDE/main/docs/ensamble%203.PNG)
 
-
+(Enclosure, status LEDs etc are optional, a sensor of any type can be used paired to the Arduino board in any wiring configuration. Modify the Arduino code accordingly)
 
 | Components  | Notes |
 | ------------- | ------------- |
