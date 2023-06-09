@@ -18,7 +18,7 @@ at *Universidad Ánahuac Querétaro.*
 
 | Components  | Notes |
 | ------------- | ------------- |
-| Arduino UNO  |  |
+| Arduino UNO  | (avr board) |
 | Red 5mm LED  | 220 Ohm resitor in series  |
 | Green 5mm LED | 220 Ohm resitor in series  |
 | 2/4 pin 6mm Push Button | 10k Ohm pull-down resitor in series  |

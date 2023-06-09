@@ -31,7 +31,7 @@ def usbconn(portname):
             ser.reset_output_buffer()
             ser.reset_input_buffer()       
             
-        print("❌ Device not running ArduinoDE")    
+        print("❌ Device not running ArduinoDE, upbload .ino file to board an try again")    
         return False
         
     except Exception as ex:
