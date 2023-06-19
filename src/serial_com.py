@@ -6,6 +6,13 @@ import time
 import os
 import re
 import sys
+from arduinouploader import *
+
+
+
+class NoUsbFoundError(Exception):
+    "No USB devices found in ports"
+    pass
 
 
 def usbconn(portname):
@@ -31,13 +38,14 @@ def usbconn(portname):
             ser.reset_output_buffer()
             ser.reset_input_buffer()       
             
-        print("❌ Device not running ArduinoDE, upbload .ino file to board an try again")    
+        print("❌ Device not running ArduinoDE, upload .ino file to board an try again")
+        print("Run arduinouploader.py to upload")    
         return False
         
     except Exception as ex:
         print(str(ex))
         print("❌ Failed connection at at port " + portname)
-        return False
+    return False
 
     
 
@@ -51,6 +59,7 @@ def waiter2():
 
         if dbuff == "begin\r\n":
             print("✅ Calling reader from waiter...")
+            
             reader()
 
         ser.reset_input_buffer()
@@ -122,7 +131,8 @@ def manualconnector(port):
         while True:
             waiter2()
     else:
-        print("Failed to wait")
+        print("❌ Invalid port")
+        raise NoUsbFoundError
 
 
 def autoconnect(port_list):
@@ -135,20 +145,40 @@ def autoconnect(port_list):
         if usb:
             print("✅ USB device found at " + str(name) + " attempting connection...")
             print("calling usbconn")
-            obj = usbconn(name[0])
-            if obj is True:
-                while True:
-                    waiter2()
-            else:
-                print("❌ Failed to wait")
+            return name[0]
+            # obj = usbconn(name[0])
+            # if obj is True:
+            #     while True:
+            #         waiter2()
+            # else:
+            #     print("❌ Failed to wait")
         elif usb == None:
             print("❌ No USB device found at " + str(name))
+            #maybe raise exeception?
+    raise NoUsbFoundError
 
 
 
 port_list = serial.tools.list_ports.comports()
 
-autoconnect(port_list)
+try:
+    usbDev = autoconnect(port_list)
+except Exception as e:
+    print(f"ERROR:{e}")
+
+def connector():
+
+    if usbconn(usbDev):
+        while True:
+            waiter2()
+    else: 
+        print("flashing Arduino")
+        upload_arduino_code(usbDev)
+        connector()
+
+
+
+
 
 #uncomment to manually connect to the port
 
