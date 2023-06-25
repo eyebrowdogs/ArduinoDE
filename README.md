@@ -24,3 +24,5 @@ at *Universidad Ánahuac Querétaro.*
 | 2/4 pin 6mm Push Button | 10k Ohm pull-down resitor in series  |
 | Mini 170 Breadboard | (Or solder averything together)  |
 | 7 M3x10mm Screws  | (I used wood screws) |
+
+https://strftime.org
