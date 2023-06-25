@@ -146,7 +146,6 @@ def manualconnector(port):
             waiter2()
     else:
         print("❌ Invalid port")
-        raise NoUsbFoundError
 
 
 def autoconnect(port_list):
