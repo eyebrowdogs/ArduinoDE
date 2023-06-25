@@ -1,18 +1,22 @@
 import serial,csv, serial.tools.list_ports
 from datetime import datetime
-#import pandas
-#import matplotlib.animation as animation
 import time
 import os
 import re
 import sys
 from arduinouploader import *
+import logging
 
 
 
-class NoUsbFoundError(Exception):
+class NoUsbConnectedError(Exception):
     "No USB devices found in ports"
     pass
+
+
+if len(sys.argv)>=2:
+    prefix = str(sys.argv[1])
+else:   prefix = None
 
 
 def usbconn(portname):
@@ -107,10 +111,18 @@ def reader():
             data.append(dupes)
             reading = True
 
-def csvwriter(data):
-        path = os.path.abspath(os.curdir)
+def namer():
+    path = os.path.abspath(os.curdir)
+    if prefix is not None:
+        name = os.path.join(path,"CSVs",prefix)+".csv"
+        return name
+    else:
         now = datetime.now()
         name = os.path.join(path,"CSVs",str(now.strftime("%d-%m-%Y-%H:%M:%S")))+".csv"
+        return name
+
+def csvwriter(data):
+        name = namer()
         with open(name, "w",newline="\n",) as f:
             print("Writing csv..")
             writer = csv.writer(f)
@@ -118,6 +130,8 @@ def csvwriter(data):
             print('✅ csv written successfully')
             #reading  = False
             data = []
+
+
 
 def eachwriter(data):
     #save csv on each data point, append each point dont rewrite whole array into file
@@ -141,7 +155,7 @@ def autoconnect(port_list):
         try:
             usb = re.search("usb", str(name))
         except Exception:
-            print("❌ No USB device found at " + str(name))
+            pass
         if usb:
             print("✅ USB device found at " + str(name) + " attempting connection...")
             print("calling usbconn")
@@ -155,16 +169,19 @@ def autoconnect(port_list):
         elif usb == None:
             print("❌ No USB device found at " + str(name))
             #maybe raise exeception?
-    raise NoUsbFoundError
+    raise NoUsbConnectedError
 
 
 
 port_list = serial.tools.list_ports.comports()
 
+#usbDev = autoconnect(port_list)
+
 try:
     usbDev = autoconnect(port_list)
 except Exception as e:
-    print(f"ERROR:{e}")
+    print("❌ No usb device is detected in port list")
+    #print(type(e))
 
 def connector():
 
