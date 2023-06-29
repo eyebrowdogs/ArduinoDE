@@ -9,7 +9,6 @@ import logging
 import json
 
 
-
 class NoUsbConnectedError(Exception):
     "No USB devices found in ports"
     pass
@@ -115,6 +114,9 @@ def waiter2():
         print("❌ Device disconnected")
         sys.exit()
 
+   
+
+
 if CAj is not False:
     def CAreader(): 
         name = namer()
@@ -150,9 +152,10 @@ def reader():
     data = []
     print("Beginning reader") 
     reading = True
-    start = time.monotonic() 
+    start = time.monotonic()
+
     while reading == True:
-         
+        
         line = ser.readline()
         #print(line)
         dline = line.decode('utf-8')
@@ -160,7 +163,9 @@ def reader():
         if dline == "end\r\n":
             end = time.monotonic()
             print("Ended reader")
-            print(f"Elapsed time:  {end - start:0.8f} ")       
+            print(f"Elapsed time:  {end - start:0.8f} ") 
+            print(data)    
+            
             csvwriter(data)
             reading  = False
                 # data = []
@@ -170,15 +175,17 @@ def reader():
             dupes = noends.split(",")
             data.append(dupes)
             reading = True
+            
 
 def namer():
     #global timestampFj
     # if timestampFj is None:
     #     timestampFj = "%d-%m-%Y-%H:%M:%S"
+    now = datetime.now()
+    timestamp = str(now.strftime(timestampFj))
+    timestamp = presufxr(timestamp)
     if filesPathj is None: #writes on current path
-        path = os.path.abspath(os.curdir)
-        now = datetime.now()
-        timestamp = str(now.strftime(timestampFj))
+        path = os.path.abspath(os.curdir)  
         name = os.path.join(path,"CSVs",timestamp)+".csv"
         #return name
     else: # writes on config key path
@@ -187,14 +194,16 @@ def namer():
         except Exception as e:
             print(str(e))
             print("❌Could not find path from config key path")
+            print(filesPathj)
         #return name
-    if prefixj is not None:
-        name = prefixj + name
-    if sufixj is not None:
-        name = name + sufixj
     return name
     
-
+def presufxr(name):
+    if prefixj is not None:
+        name = f"{prefixj}  {name}"
+    if sufixj is not None:
+        name = f"{name}  {sufixj}"
+    return name
 
 def csvwriter(data):
         name = namer()
@@ -209,7 +218,7 @@ def csvwriter(data):
         except Exception:
             print("❌ Failed to open file, check path:")
             print(str(name))
-   
+
         
 def manualconnector(port):
 
@@ -251,9 +260,10 @@ def connector(usbDev):
         while True:
             waiter2()
     else: 
-        print("flashing Arduino")
-        upload_arduino_code(usbDev)
-        connector()
+        # print("flashing Arduino")
+        # upload_arduino_code(usbDev)
+        # connector()
+        pass
 
 
 port_list = serial.tools.list_ports.comports()

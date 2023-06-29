@@ -47,8 +47,7 @@ bool sender() {
   else{
       Serial.print(loopc);
       Serial.print(", ");
-      Serial.print(cm);
-      Serial.print(" cm");      
+      Serial.print(cm);     
       Serial.println();
   }
   
