@@ -178,11 +178,23 @@ def namer():
     if filesPathj is None: #writes on current path
         path = os.path.abspath(os.curdir)
         now = datetime.now()
-        name = os.path.join(path,"CSVs",str(now.strftime(timestampFj)))+".csv"
-        return name
+        timestamp = str(now.strftime(timestampFj))
+        name = os.path.join(path,"CSVs",timestamp)+".csv"
+        #return name
     else: # writes on config key path
-        name = os.path.join(filesPathj,str(now.strftime(timestampFj)))+".csv"
-        return name
+        try:
+            name = os.path.join(filesPathj, timestamp)+".csv"
+        except Exception as e:
+            print(str(e))
+            print("❌Could not find path from config key path")
+        #return name
+    if prefixj is not None:
+        name = prefixj + name
+    if sufixj is not None:
+        name = name + sufixj
+    return name
+    
+
 
 def csvwriter(data):
         name = namer()
