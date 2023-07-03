@@ -12,7 +12,7 @@ $ python3 serial_com.py yourfile.json
 ```
 Your file must follow this format:
 
-```javascript
+```json
 {
     "filesPath": null,
     "prefix": "Example",
