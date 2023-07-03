@@ -38,6 +38,7 @@ except Exception:
     portj = None
     CAj = False
     livePlotsj = False
+    timerj = False
 
 try:
     filesPathj = configD['filesPath'] # full path 
@@ -50,6 +51,7 @@ try:
     print(portj)
     CAj = configD['CA']
     livePlotsj = configD['livePlots']
+    timerj = configD['timer']
     #print(configD)
 
 except Exception as e:
@@ -100,12 +102,13 @@ def waiter2():
         dbuff = buff.decode('utf-8')
 
         if dbuff == "begin\r\n":
+            start = time.monotonic()
             print("✅ Calling reader from waiter...")
             if CAj is not False:
-                CAreader()
+                CAreader(start)
                 return
             else:
-                reader()
+                reader(start)
                 return
 
         ser.reset_input_buffer()
@@ -118,11 +121,10 @@ def waiter2():
 
 
 if CAj is not False:
-    def CAreader(): 
+    def CAreader(start): 
         name = namer()
         print("Beginning reader") 
-        reading = True
-        start = time.monotonic() 
+        reading = True 
         while reading == True:
             
             line = ser.readline()
@@ -132,7 +134,8 @@ if CAj is not False:
             if dline == "end\r\n":
                 end = time.monotonic()
                 print("Ended reader")
-                print(f"Elapsed time:  {end - start:0.8f} ")
+                elapsed = end - start
+                print(f"Elapsed time:  {elapsed:0.8f} ") 
                 reading  = False
             else:
                 noends = dline[0:][:-2]
@@ -148,12 +151,10 @@ if CAj is not False:
                     print(str(name))
                 reading = True
 
-def reader():
+def reader(start):
     data = []
     print("Beginning reader") 
     reading = True
-    start = time.monotonic()
-
     while reading == True:
         
         line = ser.readline()
@@ -163,10 +164,11 @@ def reader():
         if dline == "end\r\n":
             end = time.monotonic()
             print("Ended reader")
-            print(f"Elapsed time:  {end - start:0.8f} ") 
+            elapsed = end - start
+            print(f"Elapsed time:  {elapsed:0.8f} ") 
             print(data)    
             
-            csvwriter(data)
+            csvwriter(data,elapsed)
             reading  = False
                 # data = []
             #return data #later use for plotting
@@ -205,8 +207,19 @@ def presufxr(name):
         name = f"{name}  {sufixj}"
     return name
 
-def csvwriter(data):
+def csvwriter(data,elapsed):
         name = namer()
+        if timerj is not False:
+            last = data[-1][0]
+            last = float(last)
+            step = last/elapsed
+            data[0][0] = 'ms'
+            #print(step)
+            for i in data[1:]:
+                fl = float(i[0])
+                i[0] = str(int(fl*step))
+
+        print(data)
         try:
             with open(name, "w",newline="\n",) as f:
                 print("Writing csv..")

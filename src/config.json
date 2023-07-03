@@ -6,7 +6,7 @@
     "baudRate": null,
     "port": null,
     "CA": false,
-    "livePlots": true
-
+    "livePlots": true,
+    "timer": true
     
 }
