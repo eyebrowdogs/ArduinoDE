@@ -41,14 +41,13 @@ bool sender() {
   if (cm>= 50.0){
     Serial.print(loopc);
     Serial.print(",  ");
-    Serial.println("NA,");
+    Serial.println("NA");
 
   }
   else{
       Serial.print(loopc);
       Serial.print(", ");
-      Serial.print(cm);
-      Serial.print(" cm,");
+      Serial.print(cm);     
       Serial.println();
   }
   
@@ -107,7 +106,7 @@ void loop(){
         Serial.println("begin");
         delay(250);
       Serial.print("No, ");
-      Serial.print("cm,");
+      Serial.print("cm");
       Serial.println();
         bt = true;
       }

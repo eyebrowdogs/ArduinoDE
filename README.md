@@ -1,4 +1,4 @@
-# ArduinoDE
+# ArduinoToCSV
 
 - Serial comm-based python script and Arduino code. 
 - Button controlled data collection triggering. Press once to start, green LED will light up and data will be sent. Press again to stop, red LED will light up signaling no data is being sent.
@@ -24,3 +24,8 @@ at *Universidad Ánahuac Querétaro.*
 | 2/4 pin 6mm Push Button | 10k Ohm pull-down resitor in series  |
 | Mini 170 Breadboard | (Or solder averything together)  |
 | 7 M3x10mm Screws  | (I used wood screws) |
+
+https://strftime.org
+
+https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
+
