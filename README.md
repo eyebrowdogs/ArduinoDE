@@ -1,5 +1,5 @@
 # ArduinoToCSV
-### **Save csv files with sensor data on you computer, no shields or aditional devices needed**
+### **Save csv files with sensor data on you computer, no shields or additional devices needed**
 
 - Serial comm-based python script and Arduino code. 
 - Button controlled data collection triggering. Press once to start, green LED will light up and data will be sent. Press again to stop, red LED will light up signaling no data is being sent.
